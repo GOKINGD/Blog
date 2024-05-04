@@ -3,17 +3,17 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: My Blog
-subtitle: ''
-description: ''
-keywords:
+title: 'GOKINGD'
+subtitle: 
+description: '山前山后各有哀愁，有风无风都不自由'
+keywords: 'C++'
 author: Shaoqian Jin
-language: cn
+language: zh-CN
 timezone: ''
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: http://example.com
+url: https://gokingd.github.io
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -40,7 +40,10 @@ external_link:
   exclude: ''
 filename_case: 0
 render_drafts: false
-post_asset_folder: false
+post_asset_folder: true
+marked:
+  prependRoot: true
+  postAsset: true
 relative_link: false
 future: true
 syntax_highlighter: highlight.js
@@ -99,13 +102,12 @@ ignore:
 theme: butterfly
 
 # Deployment
-## Docs: https://hexo.io/docs/one-command-deployment
-# deploy:
-#   type: git
-#   repo: root@159.138.51.95:/www/repo/hexo.git
-#   branch: master
-
+# Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  type: git
-  repo: https://github.com/GOKINGD/gokingd.github.io.git
-  branch: master
+ - type: git
+   repo: root@159.138.51.95:/www/repo/hexo.git
+   branch: master
+
+ - type: git
+   repo: https://github.com/GOKINGD/gokingd.github.io.git
+   branch: master
