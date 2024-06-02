@@ -19,7 +19,7 @@ $ npm install
 ``` 
 
 创建项目后，目录结构如图所示：
-{% asset_img image-1.png image-1 %}
+![label](/images/hexo-image1.png)
 其中主要关注scaffolds、source、themes目录以及_config.yml文件
 其中
 scaffolds：模板文件夹。当新建文章时，Hexo 会根据scaffold 来建立文件。Hexo 的模板是指在新建的markdown 文件中默认填充的内容（骨架）
@@ -56,7 +56,7 @@ $ hexo clean
 
 部署到github很简单，首先在github创建一个新的仓库，仓库名一定要是用户名.github.io, 然后把部署后的网站push到仓库中就OK了。
 可以在仓库的设置页面中的Pages选项中看到网站更详细的配置，注意选择的分支是master还是main分支。
-{% asset_img image.png image %}
+![label](/images/hexo-image3.png)
 
 另外还需要在部署之前修改_config.yml文件，如下所示：
 ``` yml
@@ -103,7 +103,7 @@ deploy:
 # 配置nginx
 安装nginx安装后，需要修改默认网站页面，由于本地环境是ubuntu22.04lts，所以修改/etc/nginx/sites-available/default文件
 root 后的地址改为博客网页的地址，也就是之前建立的/www/hexo目录
-{% asset_img image-2.png image-2 %}
+![label](/images/hexo-image2.png)
 
 # 更换博客主题
 hexo支持各种主题，可以直接从官方主题库下载：https://hexo.io/themes/

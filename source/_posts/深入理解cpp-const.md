@@ -11,7 +11,7 @@ categories: C++
 
 # 变量、地址、引用
 开始之前，需要了解变量、地址、引用和指针的关系。
-{% asset_img image1.png image1 %}
+![label](/images/cpp_const-image1.png)
 ```c++
 int b = 1;
 int& a = b;
@@ -151,7 +151,7 @@ void func(int a){ //非法
 ```
 
 在进行函数重载的类型匹配时，非精确匹配中，const总是被最先考虑的。
-{% asset_img image2.png image2 %}
+![label](/images/cpp_const-image2.png)
 
 ## const修饰类对象与mutable
 const对象只能调用常函数。这是因为const对象显然不能修改类的成员，其this指针是const的，而只有常函数的this指针是底层const的，否则会报错。
