@@ -1,12 +1,12 @@
 ---
 title: 深入理解cpp-static
 date: 2024-07-06 14:09:07
-tags: [C+,static]
+tags: [C++,static]
 categories: C++
 ---
 
 # 摘要
-本文讲介绍C++中常见的关键字static
+本文将介绍C++中常见的关键字static
 
 # C++内存管理
 开始之前，我们需要了解C++的内存管理模型。如下图所示：
