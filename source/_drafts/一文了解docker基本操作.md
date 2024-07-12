@@ -33,6 +33,11 @@ tag是版本号，默认情况下是nginx:latest
 ```bash
 docker images
 ```
+## docker build
+docker build用于利用指定的dockerfile来构建镜像
+```bash
+docker build -t nginx:latest /home/path
+```
 
 ## docker rmi
 
@@ -42,16 +47,27 @@ docker rmi e784f4560448 #删除image ID
 docker rmi -f nginx #强制删除
 ```
 ## docker保存与加载镜像
-docker save是讲本地镜像保存到文件中，即导出到磁盘
+docker save是将本地镜像保存到文件中，即导出到磁盘
 docker load就是加载文件中的内容到镜像，即从磁盘中读取
 ```bash
 docker save -o nginx.tar nginx:latest
 docker load -i nginx.tar
 ```
 
+## docker system df
+```bash
+docker system df
+```
+查看镜像/容器/数据卷所占用的空间
+
 # docker容器
 docker容器可以理解为从docker镜像中实例化出来的对象。同一个镜像image可以创建多个容器container，容器之间是独立的。
 
+# docker run
+docker run用来新建并启动一个容器
+```bash
+
+```
 
 # docker网络
 
