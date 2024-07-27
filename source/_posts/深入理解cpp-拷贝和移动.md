@@ -162,6 +162,95 @@ class sta{
 ```
 移动构造函数不会分配任何新的内存，只是获得st的所有权，获得所有权后，就需要把其中的指针设置为nullptr，在移动后，原来的对象就会被销毁，而我们的新的对象就获得了原来的对象。
 
-注意到，移动构造函数被声明为noexcept了。我们必须在类的声明和定义中，都同时指定noexcept
+注意到，移动构造函数被声明为noexcept了。我们必须在类的声明和定义中，都同时指定noexcept。不同于拷贝，拷贝的过程中，如果发生了异常，则原有的对象不发生改变，而新的需要构造的内存释放掉即可。但是移动构造函数中，移动的过程中如果出现了异常，则原来的对象元素已经发生了改变，会导致原对象的缺失。
 
 ## 移动赋值函数
+移动赋值函数要正确处理好自赋值的情况，要保证在字符值的情况下，不会把自己给销毁掉。例如：
+```c++
+class sta{
+    sta& sta::operator=(sta &&rhs) noexcept{
+        if (this != &rhs){
+            free(); //free自身空间
+            a = rhs.a;
+            b = rhs.b;
+            rhs.a = rhs.b = nullptr;
+        }
+        return *this;
+    }
+};
+```
+
+如果一个类，定义了拷贝操作，而没有定义移动操作，编译器不会为类自动成生成合成的移动操作。 此时，即使传参为一个右值，初始化的过程仍然是通过拷贝构造函数完成的。
+
+**一类特殊的赋值运算符**
+例如:
+```c++
+class ptr{
+public:
+    ptr(ptr &p){
+        //拷贝构造函数
+    }
+    ptr(ptr &&p) noexcept{
+        //移动构造函数
+    }
+    ptr& operator=(ptr p){
+        swap(*this,p);
+        return *this;
+    }
+};
+
+```
+
+对于上面的赋值运算符，其参数是一个非引用类型。所以当调用赋值运算符的时候，首先会发生初始化，即将实参构造为形参。这里就有两种选择，是调用拷贝构造函数还是调用移动构造函数，这取决于传入的实参。
+```c++
+p1 = p2;
+p1 = std::move(p2);
+```
+当赋值的右侧是一个左值时，此时会调用拷贝构造函数来完成初始化。而当赋值的右侧是一个右值时，会调用移动构造函数来讲p2的所有权转移到形参p，完成初始化。
+
+## 移动迭代器
+make_move_iterator可以将一个左值迭代器，转换为右值迭代器。
+例如：
+```c++
+auto last = uninitialized_copy(make_move_iterator(begin()),
+                               make_move_iterator(end()),first);
+```
+
+
+## 重载与右值引用
+通常，类的成员函数可以提供相同版本的右值引用和左值引用的函数重载。这样可以同时精确匹配左值和右值。例如标准库的容器定义了push_back的两个版本：
+```c++
+void push_back(const X&);
+void push_back(X &&);
+```
+
+一般来说，左值引用带有const，这是因为进行拷贝的过程我们不应该改变这个对象。而右值引用通常不带有const，是因为右值进行移动时，运行对右值进行修改，而不会影响其他变量，所以通常不带有const。
+
+# 引用函数
+类似于const限定符，&限定符叫做引用限定符，可用于重载成员函数。即带有引用限定符的成员函数优先匹配对应引用对象的调用，例如：
+```c++
+class sta{
+public:
+    sta sorted() &&;
+    sta sorted() const &;
+};
+
+sta sta::sorted() &&{
+    sort(data.begin(),data.end());
+    return *this;
+}
+
+sta sta::sorted() const & {
+    sta st(*this);
+    sort(st.data.begin(), st.data.end());
+    return st;
+}
+```
+对右值进行排序时，由于对象是右值，所以没有其他用户拥有其所有权，可以直接原地排序。
+而对左值对象进行排序时，我们需要拷贝一份，再进行排序。
+```c++
+retL().sorted(); //retL()返回左值，则调用sta sorted() const &
+retR().sorted(); //retR()返回右值，则调用sta sorted() &&
+
+```
+
